@@ -2,6 +2,8 @@
 
 A Smalltalk-like IDE for Jupipter
 
+![screenshot](https://raw.githubusercontent.com/davidarias/juno/master/Screenshot.png)
+
 ### Features
 
 - File explorer with Miller columns / cascading lists ( MacOS Finder style )
