@@ -1,0 +1,58 @@
+/**
+ * Pastel On Dark theme ported from ACE editor
+ * @license MIT
+ * @copyright AtomicPages LLC 2014
+ * @author Dennis Thompson, AtomicPages LLC
+ * @version 1.1
+ * @source https://github.com/atomicpages/codemirror-juno-theme
+ */
+
+.cm-s-juno.CodeMirror {
+	background: #282C34;
+	color: #ccc;
+	line-height: 1.5;
+}
+.cm-s-juno div.CodeMirror-selected { background: rgba(221,240,255,0.2); }
+.cm-s-juno .CodeMirror-line::selection, .cm-s-juno .CodeMirror-line > span::selection, .cm-s-juno .CodeMirror-line > span > span::selection { background: rgba(221,240,255,0.2); }
+.cm-s-juno .CodeMirror-line::-moz-selection, .cm-s-juno .CodeMirror-line > span::-moz-selection, .cm-s-juno .CodeMirror-line > span > span::-moz-selection { background: rgba(221,240,255,0.2); }
+
+.cm-s-juno .CodeMirror-gutters {
+	background: #4B5363;
+	border-right: 0px;
+	padding: 0 3px;
+}
+.cm-s-juno .CodeMirror-guttermarker { color: white; }
+.cm-s-juno .CodeMirror-guttermarker-subtle { color: #8F938F; }
+.cm-s-juno .CodeMirror-linenumber { color: #8F938F; }
+.cm-s-juno .CodeMirror-cursor { border-left: 1px solid #A7A7A7; }
+.cm-s-juno span.cm-comment { color: #8F938F; }
+.cm-s-juno span.cm-atom { color: #DE8E30; }
+.cm-s-juno span.cm-number { color: #DE8E30; }
+.cm-s-juno span.cm-property { color: #8F938F; }
+.cm-s-juno span.cm-attribute { color: #a6e22e; }
+.cm-s-juno span.cm-keyword { color: #BEBF55; }
+/* .cm-s-juno span.cm-string { color: #66A968; } */
+.cm-s-juno span.cm-string { color: #98C379; }
+.cm-s-juno span.cm-variable { color: #61AFEF; }
+.cm-s-juno span.cm-variable-2 { color: #BEBF55; }
+.cm-s-juno span.cm-variable-3, .cm-s-juno span.cm-type { color: #DE8E30; }
+.cm-s-juno span.cm-def { color: #757aD8; }
+.cm-s-juno span.cm-bracket { color: #8F938F; }
+.cm-s-juno span.cm-operator { color: #8F938F; }
+.cm-s-juno span.cm-tag { color: #C1C144; }
+.cm-s-juno span.cm-link { color: #ae81ff; }
+.cm-s-juno span.cm-qualifier,.cm-s-juno span.cm-builtin { color: #C1C144; }
+.cm-s-juno span.cm-error {
+	background: #757aD8;
+	color: #f8f8f0;
+}
+
+.cm-s-juno span.cm-header { color: #61AFEF; }
+.cm-s-juno span.cm-header-1 { font-size: 15px; }
+
+.cm-s-juno .CodeMirror-activeline-background { background: rgba(255, 255, 255, 0.031); }
+.cm-s-juno .CodeMirror-matchingbracket {
+	border: 1px solid rgba(255,255,255,0.25);
+	color: #8F938F !important;
+	margin: -1px -1px 0 -1px;
+}
