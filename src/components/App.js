@@ -33,6 +33,7 @@ import Empty from 'components/Empty.js';
 
 import { ipcRenderer } from 'electron';
 
+import fs from 'fs';
 import path from 'path';
 
 import defaultDoc from 'defaults/docs.js';
@@ -242,6 +243,73 @@ class App extends React.Component {
             this.loadPath(message.path, message);
         });
 
+
+        ipcRenderer.on('createObject', (event, message) => {
+
+            if ( message.name){
+                let item = this.state.item;
+
+                let filePath;
+
+                if (item.children){
+                    filePath = path.join( item.path, item.label, message.name );
+                }else{
+                    filePath = path.join( item.path, message.name );
+                }
+
+                fs.mkdir( filePath, (err) => {
+                    this.reloadFilesWithSelected();
+                    if (err){
+                        alert("This obejct already exsist in this location!");
+                        console.error(err);
+                    }
+                });
+
+            }
+
+        });
+
+        ipcRenderer.on('createMethod', (event, message) => {
+
+            if ( message.name){
+
+                let item = this.state.item;
+                let filePath;
+
+                if (item.children){
+                    filePath = path.join( item.path, item.label, message.name + '.st' );
+                }else{
+                    filePath = path.join( item.path, message.name + '.st' );
+                }
+
+                fs.readFile(filePath, (err, data) => {
+                    if (! err){
+                        alert("This method already exsist in this location!");
+                    }else{
+                        fs.writeFile(filePath, message.name, (err) => {
+                            if (err){
+                                alert("Error write the file");
+                                console.error(err);
+                            }
+                            this.reloadFilesWithSelected();
+                        });
+                    }
+                });
+            }
+
+
+        });
+
+        ipcRenderer.on('rename', (event, message) => {
+
+            let { path } = this.state.item;
+
+        });
+
+        ipcRenderer.on('selectXY', (event, message) => {
+            document.elementFromPoint(message.x, message.y).click();
+        });
+
     }
 
     loadPath(path, item){
@@ -269,6 +337,10 @@ class App extends React.Component {
 
     reloadFiles(){
         this.loadPath(this.state.basePath);
+    }
+
+    reloadFilesWithSelected(){
+        this.loadPath(this.state.basePath, this.state.item);
     }
 
     componentDidMount(){

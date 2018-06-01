@@ -5,6 +5,8 @@ const {app, BrowserWindow, Menu, ipcMain, dialog} = require('electron');
 const path = require('path');
 const url = require('url');
 
+const prompt = require('electron-prompt');
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let windows = [];
@@ -43,9 +45,9 @@ function createWindow() {
     window.once('ready-to-show', () => {
         window.show();
         // Open the DevTools automatically if developing
-        if ( dev ) {
-            window.webContents.openDevTools();
-        }
+        //if ( dev ) {
+        //    window.webContents.openDevTools();
+        //}
 
 
     });
@@ -61,6 +63,14 @@ function createWindow() {
         windows[id] = null;
         windows.splice(id, 1);
     });
+
+    // simulate left click on  right click
+    // this allow select items at the same time
+    // the context menu appears
+    window.webContents.on('context-menu', (event, props) => {
+        window.webContents.send('selectXY', props);
+    });
+
     return window;
 }
 
@@ -95,6 +105,64 @@ ipcMain.on('openFromPath', (event, message) => {
 
 });
 
+function createPrompt(title, eventName, currentWindow, params){
+
+    prompt({
+        title: title,
+        label: 'name:'
+    }).then((name) => {
+
+        currentWindow.webContents.send(eventName, {name, params} );
+
+    }).catch(console.error);
+}
+
+// right-click-menu
+require('electron-context-menu')({
+	prepend: (params, currentWindow) =>{
+        return  [
+            {
+                label: 'New Object',
+                accelerator: 'CmdOrCtrl+b',
+                click () {
+
+                    createPrompt('New Object', 'createObject', currentWindow, params );
+
+                },
+                visible: params.linkText !== ''
+            },
+            {
+                label: 'New Method',
+                accelerator: 'CmdOrCtrl+m',
+                click () {
+
+                    createPrompt('New Method', 'createMethod', currentWindow, params );
+
+                },
+                visible: params.linkText !== ''
+            },
+            {
+                label: 'Rename',
+                accelerator: 'CmdOrCtrl+r',
+                click () {
+
+                    createPrompt('Rename', 'rename', currentWindow, params );
+
+                },
+                visible: params.linkText !== ''
+            },
+            {
+                label: 'Open in new window',
+                accelerator: 'CmdOrCtrl+shift+o',
+                click (menuItem, currentWindow) {
+                    currentWindow.webContents.send('currentPathForOpen', null);
+                }
+            },
+	    ];
+
+    }
+});
+
 const menuTemplate = [
     {
         label: 'File',
@@ -103,7 +171,6 @@ const menuTemplate = [
                 label: 'New Window',
                 accelerator: 'CmdOrCtrl+n',
                 click (menuItem, currentWindow) {
-
                     createWindow();
                 }
             },
@@ -124,6 +191,20 @@ const menuTemplate = [
                 accelerator: 'CmdOrCtrl+shift+o',
                 click (menuItem, currentWindow) {
                     currentWindow.webContents.send('currentPathForOpen', null);
+                }
+            },
+            {
+                label: 'New Object',
+                accelerator: 'CmdOrCtrl+b',
+                click (menuItem, currentWindow) {
+                    currentWindow.webContents.send('createObject', null);
+                }
+            },
+            {
+                label: 'New Method',
+                accelerator: 'CmdOrCtrl+m',
+                click (menuItem, currentWindow) {
+                    currentWindow.webContents.send('createMethod', null);
                 }
             },
             {
