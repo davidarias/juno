@@ -49,7 +49,7 @@ module.exports = {
   },
   target: 'electron-renderer',
   plugins: [
-    new HtmlWebpackPlugin({title: 'Juno - IDE for Jupiter Programing Language'),
+    new HtmlWebpackPlugin({title: 'Juno - IDE for Jupiter Programing Language'}),
     new ExtractTextPlugin('bundle.css'),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
